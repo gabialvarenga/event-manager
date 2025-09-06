@@ -47,7 +47,8 @@ const EventForm = ({
   onClose, 
   onSubmit, 
   event = null, 
-  loading = false 
+  loading = false, 
+  isPage = false 
 }) => {
   const theme = useTheme();
   const isEdit = Boolean(event);
@@ -189,52 +190,24 @@ const EventForm = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <Dialog 
-        open={open} 
-        onClose={onClose}
-        maxWidth="md"
-        fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: 3,
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-          }
-        }}
-      >
-        <DialogTitle 
-          sx={{ 
-            pb: 1,
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            color: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Calendar size={24} />
-            <Typography variant="h6" component="div">
+      {isPage ? (
+        <Box sx={{
+          maxWidth: 700,
+          mx: 'auto',
+          my: 0,
+          p: { xs: 2, sm: 4 },
+          background: 'rgba(255,255,255,0.95)',
+          borderRadius: 3,
+          boxShadow: 3,
+          border: '1px solid rgba(255,255,255,0.2)',
+          backdropFilter: 'blur(20px)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+            <Calendar size={28} color="#1E88E5" />
+            <Typography variant="h5" sx={{ fontWeight: 700, color: '#1E88E5' }}>
               {isEdit ? 'Editar Evento' : 'Criar Novo Evento'}
             </Typography>
           </Box>
-          
-          <IconButton 
-            onClick={onClose}
-            sx={{ 
-              color: 'white',
-              '&:hover': { 
-                backgroundColor: alpha(theme.palette.common.white, 0.1) 
-              }
-            }}
-          >
-            <X size={20} />
-          </IconButton>
-        </DialogTitle>
-
-        <DialogContent sx={{ pt: 3 }}>
-          {/* Erros de validação */}
           {errors.length > 0 && (
             <Alert severity="error" sx={{ mb: 3 }}>
               <Typography variant="subtitle2" gutterBottom>
@@ -247,10 +220,9 @@ const EventForm = ({
               </ul>
             </Alert>
           )}
-
           <Grid container spacing={3}>
             {/* Nome do Evento */}
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Nome do Evento"
@@ -272,7 +244,6 @@ const EventForm = ({
                 }}
               />
             </Grid>
-
             {/* Data do Evento */}
             <Grid item xs={12} sm={6}>
               <DatePicker
@@ -301,7 +272,6 @@ const EventForm = ({
                 }}
               />
             </Grid>
-
             {/* Categoria */}
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
@@ -330,8 +300,7 @@ const EventForm = ({
                 </Select>
               </FormControl>
             </Grid>
-
-            {/* Horários */}
+            {/* Horário de Início */}
             <Grid item xs={12} sm={6}>
               <TimePicker
                 label="Horário de Início"
@@ -358,7 +327,7 @@ const EventForm = ({
                 }}
               />
             </Grid>
-
+            {/* Horário de Término */}
             <Grid item xs={12} sm={6}>
               <TimePicker
                 label="Horário de Término"
@@ -385,9 +354,8 @@ const EventForm = ({
                 }}
               />
             </Grid>
-
-            {/* Local */}
-            <Grid item xs={12}>
+            {/* Local do Evento */}
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Local do Evento"
@@ -409,7 +377,6 @@ const EventForm = ({
                 }}
               />
             </Grid>
-
             {/* Organizador */}
             <Grid item xs={12} sm={6}>
               <TextField
@@ -433,7 +400,6 @@ const EventForm = ({
                 }}
               />
             </Grid>
-
             {/* Capacidade */}
             <Grid item xs={12} sm={6}>
               <TextField
@@ -458,7 +424,6 @@ const EventForm = ({
                 }}
               />
             </Grid>
-
             {/* Preço */}
             <Grid item xs={12} sm={6}>
               <TextField
@@ -484,7 +449,6 @@ const EventForm = ({
                 }}
               />
             </Grid>
-
             {/* Preview da Categoria */}
             {selectedCategory && (
               <Grid item xs={12} sm={6}>
@@ -503,7 +467,6 @@ const EventForm = ({
                 </Box>
               </Grid>
             )}
-
             {/* Descrição */}
             <Grid item xs={12}>
               <TextField
@@ -530,40 +493,56 @@ const EventForm = ({
               </Typography>
             </Grid>
           </Grid>
-        </DialogContent>
-
-        <DialogActions sx={{ p: 3, gap: 1 }}>
-          <Button 
-            onClick={onClose}
-            variant="outlined"
-            sx={{ 
-              borderRadius: 2,
-              textTransform: 'none',
-              fontWeight: 600,
-            }}
-          >
-            Cancelar
-          </Button>
-          
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            disabled={loading}
-            startIcon={loading ? <Loader className="spin" size={18} /> : <Save size={18} />}
-            sx={{
-              borderRadius: 2,
-              textTransform: 'none',
-              fontWeight: 600,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)',
-              }
-            }}
-          >
-            {loading ? 'Salvando...' : (isEdit ? 'Atualizar Evento' : 'Criar Evento')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 4 }}>
+            <Button 
+              onClick={onClose}
+              variant="outlined"
+              sx={{ 
+                borderRadius: 2,
+                textTransform: 'none',
+                fontWeight: 600,
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              disabled={loading}
+              startIcon={loading ? <Loader className="spin" size={18} /> : <Save size={18} />}
+              sx={{
+                borderRadius: 2,
+                textTransform: 'none',
+                fontWeight: 600,
+                background: 'linear-gradient(135deg, #1E88E5 0%, #1976D2 100%)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #1976D2 0%, #1565C0 100%)',
+                }
+              }}
+            >
+              {loading ? 'Salvando...' : (isEdit ? 'Atualizar Evento' : 'Criar Evento')}
+            </Button>
+          </Box>
+        </Box>
+      ) : (
+        // ...existing code (Dialog modal)...
+        <Dialog 
+          open={open} 
+          onClose={onClose}
+          maxWidth="md"
+          fullWidth
+          PaperProps={{
+            sx: {
+              borderRadius: 3,
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+            }
+          }}
+        >
+          {/* ...existing code... */}
+        </Dialog>
+      )}
     </LocalizationProvider>
   );
 };
