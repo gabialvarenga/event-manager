@@ -124,6 +124,17 @@ export const eventService = {
     }
   },
 
+  async searchEventsByNameOrId(query) {
+    try {
+      const response = await apiClient.get('/events/search/global', {
+        params: { query }
+      });
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  },
+
   async getEventsByCategory(category) {
     try {
       const response = await apiClient.get(`/events/category/${category}`);

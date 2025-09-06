@@ -67,6 +67,8 @@ const EventsPage = () => {
 
   // Estados de busca e filtros
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     startDate: '',
@@ -82,29 +84,44 @@ const EventsPage = () => {
   const [sortBy, setSortBy] = useState('eventDate');
   const [sortOrder, setSortOrder] = useState('asc');
 
+  // Função para buscar eventos
+  const handleSearch = async (term) => {
+    if (!term.trim()) {
+      setSearchResults([]);
+      setIsSearching(false);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const results = await searchEvents(term);
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Erro na busca:', error);
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
   // Debounced search
   const debouncedSearch = useMemo(
-    () => debounce((term) => {
-      if (term.trim()) {
-        searchEvents(term, filters);
-      }
-    }, 300),
-    [searchEvents, filters]
+    () => debounce(handleSearch, 300),
+    [searchEvents]
   );
 
   // Aplicar busca quando o termo muda
   React.useEffect(() => {
-    if (searchTerm) {
-      debouncedSearch(searchTerm);
-    }
+    debouncedSearch(searchTerm);
   }, [searchTerm, debouncedSearch]);
 
   // Filtrar e ordenar eventos
   const filteredAndSortedEvents = useMemo(() => {
-    let result = [...events];
+    // Usar resultados da busca se houver termo de pesquisa, senão usar todos os eventos
+    let result = searchTerm.trim() ? searchResults : events;
 
-    // Aplicar filtros de busca se não houver termo de pesquisa
-    if (!searchTerm) {
+    // Aplicar filtros apenas se não houver busca ativa
+    if (!searchTerm.trim()) {
       // Aplicar filtros
       if (filters.startDate) {
         const startDate = new Date(filters.startDate);
@@ -180,7 +197,7 @@ const EventsPage = () => {
     });
 
     return result;
-  }, [events, searchTerm, filters, sortBy, sortOrder]);
+  }, [events, searchTerm, searchResults, filters, sortBy, sortOrder]);
 
   // Handlers
   const handleSubmit = async (eventData) => {
@@ -244,6 +261,8 @@ const EventsPage = () => {
       category: ''
     });
     setSearchTerm('');
+    setSearchResults([]);
+    setIsSearching(false);
     setSortBy('eventDate');
     setSortOrder('asc');
   };
@@ -328,6 +347,8 @@ const EventsPage = () => {
             clearAllFilters={clearAllFilters}
             showAdvanced={true}
             title="Filtros Avançados"
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
           />
         </Collapse>
       </Box>

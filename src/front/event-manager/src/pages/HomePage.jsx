@@ -216,7 +216,7 @@ const HomePage = () => {
         </Typography>
         
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={1} sm={6} md={3}>
             <Fade in timeout={300}>
               <Box>
                 <StatCard
@@ -307,16 +307,6 @@ const HomePage = () => {
               description="Encontre eventos específicos"
               icon={Users}
               color="#FF6B35"
-              onClick={() => navigate(ROUTES.EVENTS)}
-            />
-          </Grid>
-          
-          <Grid item xs={12} sm={6} md={3}>
-            <QuickActionCard
-              title="Relatórios"
-              description="Visualize estatísticas detalhadas"
-              icon={TrendingUp}
-              color="#FF9800"
               onClick={() => navigate(ROUTES.EVENTS)}
             />
           </Grid>

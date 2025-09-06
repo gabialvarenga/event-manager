@@ -75,6 +75,10 @@ public class EventService {
         return eventRepository.findByNameContainingIgnoreCase(name);
     }
     
+    public List<Event> searchEventsByNameOrId(String query) {
+        return eventRepository.findByNameOrId(query);
+    }
+    
     public List<Event> getUpcomingEventsByCategory(EventCategory category) {
         return eventRepository.findUpcomingEventsByCategory(category, LocalDate.now());
     }

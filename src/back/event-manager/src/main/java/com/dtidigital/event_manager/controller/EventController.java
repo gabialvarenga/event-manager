@@ -102,6 +102,13 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
     
+    // Buscar eventos por nome ou ID
+    @GetMapping("/search/global")
+    public ResponseEntity<List<Event>> searchEventsByNameOrId(@RequestParam String query) {
+        List<Event> events = eventService.searchEventsByNameOrId(query);
+        return ResponseEntity.ok(events);
+    }
+    
     // Buscar eventos futuros por categoria
     @GetMapping("/upcoming/category/{category}")
     public ResponseEntity<List<Event>> getUpcomingEventsByCategory(@PathVariable EventCategory category) {

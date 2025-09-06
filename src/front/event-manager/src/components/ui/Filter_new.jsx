@@ -24,7 +24,9 @@ const Filter = ({
   toggleSortOrder,
   clearAllFilters,
   showAdvanced = true,
-  title = "Filtros"
+  title = "Filtros",
+  searchTerm = '',
+  onSearchChange
 }) => {
   return (
     <Paper sx={{ 
@@ -44,6 +46,34 @@ const Filter = ({
       )}
       
       <Grid container spacing={3}>
+        {/* Campo de Busca Global */}
+        {onSearchChange && (
+          <Grid item xs={12}>
+            <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600, color: '#718096' }}>
+              Busca Geral
+            </Typography>
+            <TextField
+              fullWidth
+              label="Buscar por nome ou ID"
+              placeholder="Digite o nome do evento ou ID..."
+              value={searchTerm}
+              onChange={(e) => onSearchChange(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search size={18} />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                }
+              }}
+            />
+          </Grid>
+        )}
+
         {/* Filtros de Data */}
         <Grid item xs={12}>
           <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600, color: '#718096' }}>

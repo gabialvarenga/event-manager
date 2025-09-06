@@ -18,7 +18,6 @@ import {
   DollarSign,
   Edit,
   Trash2,
-  Eye,
   User,
 } from 'lucide-react';
 import {
@@ -71,15 +70,27 @@ const EventCard = ({
         borderBottom: `2px solid ${categoryInfo.color}30`
       }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-          <Chip
-            label={categoryInfo.label}
-            size="small"
-            sx={{
-              backgroundColor: `${categoryInfo.color}20`,
-              color: categoryInfo.color,
-              fontWeight: 600,
-            }}
-          />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Chip
+              label={`ID: ${event.id}`}
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                color: '#666',
+                fontWeight: 600,
+                fontSize: '0.75rem',
+              }}
+            />
+            <Chip
+              label={categoryInfo.label}
+              size="small"
+              sx={{
+                backgroundColor: `${categoryInfo.color}20`,
+                color: categoryInfo.color,
+                fontWeight: 600,
+              }}
+            />
+          </Box>
           <Chip
             label={statusText}
             size="small"
@@ -208,7 +219,6 @@ const EventCard = ({
               onClick={onView}
               sx={{ color: theme.palette.primary.main }}
             >
-              <Eye size={18} />
             </IconButton>
           )}
           {onEdit && (

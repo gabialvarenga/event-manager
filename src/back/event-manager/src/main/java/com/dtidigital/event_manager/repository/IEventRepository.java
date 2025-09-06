@@ -23,6 +23,11 @@ public interface IEventRepository extends JpaRepository<Event, Long> {
     
     List<Event> findByNameContainingIgnoreCase(String name);
     
+    @Query("SELECT e FROM Event e WHERE " +
+           "LOWER(e.name) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "LOWER(CONCAT('', e.id)) LIKE LOWER(CONCAT('%', :query, '%'))")
+    List<Event> findByNameOrId(@Param("query") String query);
+    
     @Query("SELECT e FROM Event e WHERE e.eventDate >= :startDate AND e.eventDate <= :endDate")
     List<Event> findEventsByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
     

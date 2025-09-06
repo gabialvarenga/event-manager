@@ -93,7 +93,8 @@ export const useEvents = () => {
       let results = [];
       
       if (query?.trim()) {
-        results = await eventService.searchEventsByName(query);
+        // Usar o novo método que busca por nome ou ID
+        results = await eventService.searchEventsByNameOrId(query);
       } else {
         results = [...events];
       }
