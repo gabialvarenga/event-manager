@@ -1,6 +1,6 @@
 package com.dtidigital.event_manager.service;
 
-import com.dtidigital.event_manager.exception.EventoNotFoundException;
+import com.dtidigital.event_manager.exception.EventNotFoundException;
 import com.dtidigital.event_manager.model.Event;
 import com.dtidigital.event_manager.enums.EventCategory;
 import com.dtidigital.event_manager.repository.IEventRepository;
@@ -31,7 +31,7 @@ public class EventService {
     
     public Event updateEvent(Long id, Event eventDetails) {
         Event event = eventRepository.findById(id)
-            .orElseThrow(() -> new EventoNotFoundException("Evento não encontrado com ID: " + id));
+            .orElseThrow(() -> new EventNotFoundException("Evento não encontrado com ID: " + id));
         
         event.setName(eventDetails.getName());
         event.setEventDate(eventDetails.getEventDate());
@@ -49,7 +49,7 @@ public class EventService {
     
     public void deleteEvent(Long id) {
         if (!eventRepository.existsById(id)) {
-            throw new EventoNotFoundException("Evento não encontrado com ID: " + id);
+            throw new EventNotFoundException("Evento não encontrado com ID: " + id);
         }
         eventRepository.deleteById(id);
     }
