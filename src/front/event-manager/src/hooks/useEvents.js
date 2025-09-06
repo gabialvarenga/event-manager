@@ -132,8 +132,8 @@ export const useEvents = () => {
   }, []);
 
   // Buscar eventos por nome
-  const searchEvents = useCallback(async (name) => {
-    if (!name.trim()) {
+  const searchEvents = useCallback(async (query, filters = {}) => {
+    if (!query?.trim() && Object.keys(filters).length === 0) {
       return events;
     }
     
@@ -141,8 +141,62 @@ export const useEvents = () => {
     setError(null);
     
     try {
-      const data = await eventService.searchEventsByName(name);
-      return data;
+      let results = [];
+      
+      if (query?.trim()) {
+        // Buscar por nome primeiro
+        results = await eventService.searchEventsByName(query);
+      } else {
+        // Se não há query, usar todos os eventos
+        results = [...events];
+      }
+      
+      // Aplicar filtros adicionais
+      if (filters.category) {
+        results = results.filter(event => event.category === filters.category);
+      }
+      
+      if (filters.organizer) {
+        results = results.filter(event => 
+          event.organizer.toLowerCase().includes(filters.organizer.toLowerCase())
+        );
+      }
+      
+      if (filters.location) {
+        results = results.filter(event => 
+          event.location.toLowerCase().includes(filters.location.toLowerCase())
+        );
+      }
+      
+      if (filters.startDate) {
+        const startDate = new Date(filters.startDate);
+        results = results.filter(event => {
+          const eventDate = new Date(event.eventDate);
+          return eventDate >= startDate;
+        });
+      }
+      
+      if (filters.endDate) {
+        const endDate = new Date(filters.endDate);
+        results = results.filter(event => {
+          const eventDate = new Date(event.eventDate);
+          return eventDate <= endDate;
+        });
+      }
+      
+      if (filters.minPrice !== undefined) {
+        results = results.filter(event => 
+          event.price === null || event.price >= filters.minPrice
+        );
+      }
+      
+      if (filters.maxPrice !== undefined) {
+        results = results.filter(event => 
+          event.price === null || event.price <= filters.maxPrice
+        );
+      }
+      
+      return results;
     } catch (err) {
       setError(err.message);
       throw err;
