@@ -1,9 +1,0 @@
-@import './styles/global.css';
-
-/* Estilos específicos do root */
-#root {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
