@@ -27,8 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import useEvents from '../hooks/useEvents';
 import EventCard from '../components/EventCard/EventCard';
 import { 
-  formatDate, 
-  getGreeting, 
+  formatDate,
   daysUntilEvent,
   getEventStatus 
 } from '../utils/formatters';
@@ -160,31 +159,28 @@ const HomePage = () => {
 
   return (
     <Box>
-      {/* Hero Section */}
-      <Paper sx={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    {/* Hero Section */}
+    <Paper sx={{
+        background: 'linear-gradient(135deg, #1E88E5 0%, #1565C0 100%)',
         color: 'white',
         borderRadius: 3,
         p: 4,
         mb: 4,
         position: 'relative',
         overflow: 'hidden'
-      }}>
+    }}>
         <Box sx={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: '40%',
-          height: '100%',
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '40%',
+            height: '100%',
           background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
           opacity: 0.3
         }} />
         
         <Box sx={{ position: 'relative', zIndex: 1 }}>
-          <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 700 }}>
-            {getGreeting()}! 👋
-          </Typography>
-          <Typography variant="h5" sx={{ mb: 3, opacity: 0.9 }}>
+          <Typography variant="h4" sx={{ mb: 3, opacity: 0.9 }}>
             Gerencie seus eventos de forma inteligente e eficiente
           </Typography>
           <Button
@@ -221,7 +217,7 @@ const HomePage = () => {
                 title="Total de Eventos"
                 value={loading ? '...' : stats.total}
                 icon={Calendar}
-                color={theme.palette.primary.main}
+                color="#1E88E5"
                 description="Eventos cadastrados no sistema"
               />
             </Box>
@@ -235,7 +231,7 @@ const HomePage = () => {
                 title="Próximos Eventos"
                 value={loading ? '...' : stats.upcoming}
                 icon={TrendingUp}
-                color="#4facfe"
+                color="#4CAF50"
                 description="Eventos futuros agendados"
               />
             </Box>
@@ -249,7 +245,7 @@ const HomePage = () => {
                 title="Eventos Hoje"
                 value={loading ? '...' : stats.today}
                 icon={Clock}
-                color="#fa709a"
+                color="#FF6B35"
                 description="Acontecendo hoje"
               />
             </Box>
@@ -263,7 +259,7 @@ const HomePage = () => {
                 title="Esta Semana"
                 value={loading ? '...' : stats.thisWeek}
                 icon={Star}
-                color="#43e97b"
+                color="#FF9800"
                 description="Próximos 7 dias"
               />
             </Box>
@@ -283,7 +279,7 @@ const HomePage = () => {
               title="Criar Evento"
               description="Adicione um novo evento ao sistema"
               icon={Plus}
-              color="#667eea"
+              color="#1E88E5"
               onClick={() => navigate('/create')}
             />
           </Grid>
@@ -293,7 +289,7 @@ const HomePage = () => {
               title="Ver Todos"
               description="Visualize todos os eventos cadastrados"
               icon={Calendar}
-              color="#764ba2"
+              color="#4CAF50"
               onClick={() => navigate('/events')}
             />
           </Grid>
@@ -303,7 +299,7 @@ const HomePage = () => {
               title="Buscar"
               description="Encontre eventos específicos"
               icon={Users}
-              color="#f093fb"
+              color="#FF6B35"
               onClick={() => navigate('/search')}
             />
           </Grid>
@@ -313,7 +309,7 @@ const HomePage = () => {
               title="Relatórios"
               description="Visualize estatísticas detalhadas"
               icon={TrendingUp}
-              color="#4facfe"
+              color="#FF9800"
               onClick={() => navigate('/events')}
             />
           </Grid>
@@ -380,7 +376,7 @@ const HomePage = () => {
               startIcon={<Plus size={16} />}
               onClick={() => navigate('/create')}
               sx={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #1E88E5 0%, #1565C0 100%)',
                 borderRadius: 2,
                 textTransform: 'none',
                 fontWeight: 600,

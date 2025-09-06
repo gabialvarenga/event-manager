@@ -14,7 +14,7 @@ import {
 import { ArrowLeft, Calendar, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useEvents from '../hooks/useEvents';
-import EventForm from '../components/EventForm/EventForm';
+import EventForm from '../components/EventForm/EventForm.jsx';
 
 const CreateEventPage = () => {
   const theme = useTheme();
@@ -52,40 +52,9 @@ const CreateEventPage = () => {
 
   return (
     <Box>
-      {/* Breadcrumbs */}
-      <Breadcrumbs sx={{ mb: 3 }}>
-        <Link 
-          color="inherit" 
-          href="#" 
-          onClick={() => navigate('/')}
-          sx={{ 
-            display: 'flex', 
-            alignItems: 'center',
-            textDecoration: 'none',
-            '&:hover': { textDecoration: 'underline' }
-          }}
-        >
-          Início
-        </Link>
-        <Link 
-          color="inherit" 
-          href="#" 
-          onClick={() => navigate('/events')}
-          sx={{ 
-            display: 'flex', 
-            alignItems: 'center',
-            textDecoration: 'none',
-            '&:hover': { textDecoration: 'underline' }
-          }}
-        >
-          Eventos
-        </Link>
-        <Typography color="textPrimary">Criar Evento</Typography>
-      </Breadcrumbs>
-
       {/* Header */}
       <Paper sx={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #1E88E5 0%, #1565C0 100%)',
         color: 'white',
         borderRadius: 3,
         p: 4,
@@ -105,21 +74,6 @@ const CreateEventPage = () => {
         }} />
         
         <Box sx={{ position: 'relative', zIndex: 1 }}>
-          {/* Botão Voltar */}
-          <Button
-            startIcon={<ArrowLeft size={18} />}
-            onClick={() => navigate('/events')}
-            sx={{
-              color: 'white',
-              mb: 2,
-              '&:hover': {
-                background: 'rgba(255, 255, 255, 0.1)',
-              }
-            }}
-          >
-            Voltar para Eventos
-          </Button>
-
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <Calendar size={40} />
             <Box>
@@ -134,43 +88,14 @@ const CreateEventPage = () => {
         </Box>
       </Paper>
 
-      {/* Instruções */}
-      <Alert 
-        severity="info" 
-        sx={{ 
-          mb: 4,
-          borderRadius: 2,
-          background: alpha(theme.palette.info.main, 0.1),
-          border: `1px solid ${alpha(theme.palette.info.main, 0.2)}`
-        }}
-      >
-        <Typography variant="subtitle2" gutterBottom>
-          Dicas para criar um evento eficaz:
-        </Typography>
-        <ul style={{ margin: 0, paddingLeft: 20 }}>
-          <li>Use um nome claro e descritivo</li>
-          <li>Defina data e horários precisos</li>
-          <li>Forneça um local específico</li>
-          <li>Adicione uma descrição detalhada</li>
-          <li>Escolha a categoria apropriada</li>
-        </ul>
-      </Alert>
-
       {/* Formulário */}
-      <Paper sx={{
-        background: 'rgba(255, 255, 255, 0.8)',
-        backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
-        borderRadius: 3,
-        p: 4
-      }}>
         <EventForm
           open={true}
-          onClose={() => navigate('/events')}
           onSubmit={handleSubmit}
           loading={submitting}
+          isPage={true}
         />
-      </Paper>
+   
 
       {/* Notificações */}
       <Snackbar

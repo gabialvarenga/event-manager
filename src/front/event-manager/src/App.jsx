@@ -5,24 +5,28 @@ import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
 import CreateEventPage from './pages/CreateEventPage';
-import SearchPage from './pages/SearchPage';
 import './styles/global.css';
 
-// Tema customizado do Material-UI
+// Tema customizado do Material-UI inspirado no Symplá
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#667eea',
-      light: '#98a7f0',
-      dark: '#4a5bb8',
+      main: '#1E88E5', // Azul principal similar ao Symplá
+      light: '#6BB6FF',
+      dark: '#1565C0',
     },
     secondary: {
-      main: '#764ba2',
-      light: '#a379d9',
-      dark: '#5d3c82',
+      main: '#FF6B35', // Laranja para contrastes
+      light: '#FF9E6B',
+      dark: '#E55722',
     },
     background: {
       default: '#f8f9fa',
+      paper: '#ffffff',
+    },
+    text: {
+      primary: '#2D3748',
+      secondary: '#718096',
     },
   },
   typography: {
@@ -88,8 +92,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/events" element={<EventsPage />} />
-            <Route path="/create" element={<CreateEventPage />} />
-            <Route path="/search" element={<SearchPage />} />
+            <Route path="/create" element={<CreateEventPage />} 
+            />
           </Routes>
         </Layout>
       </Router>
