@@ -254,20 +254,7 @@ export const daysUntilEvent = (eventDate) => {
   return diffDays;
 };
 
-// Obter saudação baseada no horário
-export const getGreeting = () => {
-  const hour = new Date().getHours();
-  
-  if (hour < 12) {
-    return 'Bom dia';
-  } else if (hour < 18) {
-    return 'Boa tarde';
-  } else {
-    return 'Boa noite';
-  }
-};
 
-// Obter ícone para categoria
 export const getCategoryIcon = (category) => {
   const icons = {
     CONFERENCE: '🎤',
@@ -326,7 +313,6 @@ export default {
   formatTimeForInput,
   toISODateTime,
   daysUntilEvent,
-  getGreeting,
   getCategoryIcon,
   getCategoryColor
 };
