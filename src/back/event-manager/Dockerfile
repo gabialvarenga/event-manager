@@ -1,11 +1,11 @@
 # Dockerfile para backend Spring Boot
-FROM eclipse-temurin:21-jre
-
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copia o JAR gerado pelo Maven
-COPY target/*.jar app.jar
-
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
 ENTRYPOINT ["java", "-jar", "app.jar"]
