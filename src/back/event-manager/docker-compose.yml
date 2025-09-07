@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  event-manager:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./database:/app/database
+    restart: always
