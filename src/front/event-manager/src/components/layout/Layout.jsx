@@ -169,7 +169,7 @@ const Layout = ({ children }) => {
             align="center"
             sx={{ fontWeight: 400 }}
           >
-            © 2025 Event Manager - Sistema de Gerenciamento de Eventos
+            © 2025 Gabriela Alvarenga - Sistema de Gerenciamento de Eventos
           </Typography>
         </Container>
       </Box>

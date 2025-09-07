@@ -294,7 +294,7 @@ const EventsPage = () => {
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             <TextField
               fullWidth
-              placeholder="Buscar eventos..."
+              placeholder="Buscar eventos por nome/id"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               InputProps={{

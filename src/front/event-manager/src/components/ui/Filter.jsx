@@ -12,7 +12,7 @@ import {
   Paper,
   Typography
 } from '@mui/material';
-import { Calendar, SortAsc, SortDesc, User, MapPin, Search } from 'lucide-react';
+import { Calendar, SortAsc, SortDesc, User, MapPin, Search, Tag } from 'lucide-react';
 import { EVENT_CATEGORIES } from '../../constants';
 
 const Filter = ({
@@ -87,19 +87,24 @@ const Filter = ({
           </Grid>
         </Grid>
 
-        {/* Categoria e Ordenação */}
-        <Grid item xs={12}>
+        {/* Categoria */}
+        <Grid item xs={12} >
           <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600, color: '#718096' }}>
-            Categoria e Ordenação
+            Categoria
           </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <FormControl fullWidth>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth  sx={{ minWidth: "170px" }}>
                 <InputLabel>Categoria</InputLabel>
                 <Select
                   value={filters.category || ''}
                   onChange={(e) => setFilters({ ...filters, category: e.target.value })}
                   label="Categoria"
+                  startAdornment={
+                  <InputAdornment position="start">
+                  <Tag size={20} />
+                  </InputAdornment>
+                }
                 >
                   <MenuItem value="">Todas as categorias</MenuItem>
                   {EVENT_CATEGORIES.map((category) => (
@@ -110,7 +115,17 @@ const Filter = ({
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={4}>
+          </Grid>
+        </Grid>
+
+
+        {/* Ordenação */}
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600, color: '#718096' }}>
+            Ordenação
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel>Ordenar por</InputLabel>
                 <Select
@@ -126,7 +141,7 @@ const Filter = ({
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={1}>
               <Button
                 variant="outlined"
                 onClick={toggleSortOrder}
@@ -212,27 +227,26 @@ const Filter = ({
                   }}
                 />
               </Grid>
+                <Grid item xs={12} sm={6} md={3} sx={{ display: 'flex', alignItems: 'flex-end'}}>
+                  <Button
+                    variant="text"
+                    color="error"
+                    onClick={clearAllFilters}
+                    sx={{
+                      fontWeight: 600,
+                      height: '56px',
+                      width: '100%',
+                      '&:hover': {
+                        backgroundColor: 'transparent',
+                      },
+                    }}
+                  >
+                    Limpar Todos os Filtros
+                  </Button>
+                </Grid>
             </Grid>
           </Grid>
         )}
-
-        {/* Botão Limpar Filtros */}
-        <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={clearAllFilters}
-              sx={{
-                fontWeight: 600,
-                px: 4,
-                py: 1.5,
-              }}
-            >
-              Limpar Todos os Filtros
-            </Button>
-          </Box>
-        </Grid>
       </Grid>
     </Paper>
   );
