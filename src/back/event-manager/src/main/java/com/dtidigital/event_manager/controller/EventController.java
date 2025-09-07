@@ -72,13 +72,6 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
     
-    // Buscar eventos futuros
-    @GetMapping("/upcoming")
-    public ResponseEntity<List<Event>> getUpcomingEvents() {
-        List<Event> events = eventService.getUpcomingEvents();
-        return ResponseEntity.ok(events);
-    }
-    
     // Buscar eventos por período
     @GetMapping("/date-range")
     public ResponseEntity<List<Event>> getEventsByDateRange(

@@ -194,13 +194,13 @@ const HomePage = () => {
             startIcon={<Plus size={20} />}
             onClick={() => navigate(ROUTES.CREATE_EVENT)}
             sx={{
-              background: 'linear-gradient(135deg, #FF6B35 0%, #E55722 100%)',
+              background: 'linear-gradient(135deg, #526dc5ff 0%, #2246e5ff 100%)',
               borderRadius: 2,
               textTransform: 'none',
               fontWeight: 600,
               color: 'white',
               '&:hover': {
-                background: 'linear-gradient(135deg, #E55722 0%, #d84315 100%)',
+                background: 'linear-gradient(135deg, #2145bbff 0%, #1590d8ff 100%)',
               }
             }}
           >

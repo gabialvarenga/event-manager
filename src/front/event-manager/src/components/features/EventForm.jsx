@@ -110,6 +110,7 @@ const EventForm = ({
   const handleInputChange = (field) => (event) => {
     const value = event.target.value;
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setTouched((prev) => ({ ...prev, [field]: true }));
 
     // Limpar erro do campo quando usuário começar a digitar
     if (fieldErrors[field]) {
@@ -119,10 +120,81 @@ const EventForm = ({
 
   const handleDateChange = (field) => (value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setTouched((prev) => ({ ...prev, [field]: true }));
 
     if (fieldErrors[field]) {
       setFieldErrors((prev) => ({ ...prev, [field]: null }));
     }
+  };
+
+  const handleBlur = (field) => () => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    validateField(field);
+  };
+
+  const validateField = (field) => {
+    const newFieldErrors = { ...fieldErrors };
+    
+    switch (field) {
+      case 'name':
+        if (!formData.name.trim()) {
+          newFieldErrors.name = 'Nome do evento é obrigatório';
+        } else {
+          delete newFieldErrors.name;
+        }
+        break;
+      case 'eventDate':
+        if (!formData.eventDate) {
+          newFieldErrors.eventDate = 'Data do evento é obrigatória';
+        } else {
+          delete newFieldErrors.eventDate;
+        }
+        break;
+      case 'startTime':
+        if (!formData.startTime) {
+          newFieldErrors.startTime = 'Horário de início é obrigatório';
+        } else {
+          delete newFieldErrors.startTime;
+        }
+        break;
+      case 'endTime':
+        if (!formData.endTime) {
+          newFieldErrors.endTime = 'Horário de término é obrigatório';
+        } else {
+          delete newFieldErrors.endTime;
+        }
+        break;
+      case 'location':
+        if (!formData.location.trim()) {
+          newFieldErrors.location = 'Local do evento é obrigatório';
+        } else {
+          delete newFieldErrors.location;
+        }
+        break;
+      case 'organizer':
+        if (!formData.organizer.trim()) {
+          newFieldErrors.organizer = 'Organizador é obrigatório';
+        } else {
+          delete newFieldErrors.organizer;
+        }
+        break;
+      case 'capacity':
+        if (!formData.capacity || parseInt(formData.capacity) <= 0) {
+          newFieldErrors.capacity = 'Capacidade deve ser maior que zero';
+        } else {
+          delete newFieldErrors.capacity;
+        }
+        break;
+      case 'category':
+        if (!formData.category) {
+          newFieldErrors.category = 'Categoria é obrigatória';
+        } else {
+          delete newFieldErrors.category;
+        }
+        break;
+    }
+    
+    setFieldErrors(newFieldErrors);
   };
 
   const validateForm = () => {
@@ -235,15 +307,17 @@ const EventForm = ({
             </Alert>
           )}
           <Grid container spacing={3}>
-            {/* Nome do Evento */}
+            {/*  o Evento*/}
             <Grid item xs={12}>
               <TextField
                 fullWidth
                 label="Nome do Evento"
                 value={formData.name}
                 onChange={handleInputChange("name")}
+                onBlur={handleBlur("name")}
                 error={!!fieldErrors.name}
-                helperText={fieldErrors.name}
+                helperText={fieldErrors.name || "Digite o nome do evento"}
+                required
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -262,7 +336,7 @@ const EventForm = ({
               />
             </Grid>
 
-            {/* Data e Horários */}
+            {/* Data e Horários*/}
             <Grid item xs={12} sm={4}>
               <DatePicker
                 label="Data do Evento"
@@ -272,8 +346,10 @@ const EventForm = ({
                 slotProps={{
                   textField: {
                     fullWidth: true,
+                    required: true,
                     error: !!fieldErrors.eventDate,
-                    helperText: fieldErrors.eventDate,
+                    helperText: fieldErrors.eventDate || "Selecione a data",
+                    onBlur: handleBlur("eventDate"),
                     InputProps: {
                       startAdornment: (
                         <InputAdornment position="start">
@@ -301,8 +377,10 @@ const EventForm = ({
                 slotProps={{
                   textField: {
                     fullWidth: true,
+                    required: true,
                     error: !!fieldErrors.startTime,
-                    helperText: fieldErrors.startTime,
+                    helperText: fieldErrors.startTime || "Hora de início",
+                    onBlur: handleBlur("startTime"),
                     InputProps: {
                       startAdornment: (
                         <InputAdornment position="start">
@@ -330,8 +408,10 @@ const EventForm = ({
                 slotProps={{
                   textField: {
                     fullWidth: true,
+                    required: true,
                     error: !!fieldErrors.endTime,
-                    helperText: fieldErrors.endTime,
+                    helperText: fieldErrors.endTime || "Hora de término",
+                    onBlur: handleBlur("endTime"),
                     InputProps: {
                       startAdornment: (
                         <InputAdornment position="start">
@@ -359,8 +439,10 @@ const EventForm = ({
                 label="Local do Evento"
                 value={formData.location}
                 onChange={handleInputChange("location")}
+                onBlur={handleBlur("location")}
                 error={!!fieldErrors.location}
-                helperText={fieldErrors.location}
+                helperText={fieldErrors.location || "Digite o local do evento"}
+                required
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -381,8 +463,10 @@ const EventForm = ({
                 label="Organizador"
                 value={formData.organizer}
                 onChange={handleInputChange("organizer")}
+                onBlur={handleBlur("organizer")}
                 error={!!fieldErrors.organizer}
-                helperText={fieldErrors.organizer}
+                helperText={fieldErrors.organizer || "Nome do organizador"}
+                required
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -400,17 +484,18 @@ const EventForm = ({
 
             {/* Categoria, Capacidade e Preço */}
             <Grid item xs={12} sm={4}>
-              <FormControl fullWidth sx={{ minWidth: "170px" }}>
+              <FormControl 
+                fullWidth 
+                required 
+                error={!!fieldErrors.category}
+                sx={{ minWidth: "170px" }}
+              >
                 <InputLabel>Categoria</InputLabel>
                 <Select
                   value={formData.category}
                   onChange={handleInputChange("category")}
+                  onBlur={handleBlur("category")}
                   label="Categoria"
-                  startAdornment={
-                  <InputAdornment position="start">
-                  <Tag size={20} />
-                  </InputAdornment>
-                }
                   sx={{
                     borderRadius: 2,
                   }}
@@ -426,6 +511,11 @@ const EventForm = ({
                     </MenuItem>
                   ))}
                 </Select>
+                {fieldErrors.category && (
+                  <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 2 }}>
+                    {fieldErrors.category}
+                  </Typography>
+                )}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -435,8 +525,10 @@ const EventForm = ({
                 type="number"
                 value={formData.capacity}
                 onChange={handleInputChange("capacity")}
+                onBlur={handleBlur("capacity")}
                 error={!!fieldErrors.capacity}
-                helperText={fieldErrors.capacity}
+                helperText={fieldErrors.capacity || "Número de participantes"}
+                required
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -609,15 +701,16 @@ const EventForm = ({
             )}
             <form onSubmit={handleSubmit}>
               <Grid container spacing={3}>
-                {/* Nome do Evento */}
+                {/* Nome do Evento - Linha completa */}
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
                     label="Nome do Evento"
                     value={formData.name}
                     onChange={handleInputChange("name")}
+                    onBlur={handleBlur("name")}
                     error={!!fieldErrors.name}
-                    helperText={fieldErrors.name}
+                    helperText={fieldErrors.name || "Digite o nome do evento"}
                     required
                     InputProps={{
                       startAdornment: (
@@ -637,7 +730,7 @@ const EventForm = ({
                   />
                 </Grid>
 
-                {/* Data e Horários */}
+                {/* Data e Horários - Na mesma linha */}
                 <Grid item xs={12} sm={4}>
                   <DatePicker
                     label="Data do Evento"
@@ -649,7 +742,8 @@ const EventForm = ({
                         fullWidth: true,
                         required: true,
                         error: !!fieldErrors.eventDate,
-                        helperText: fieldErrors.eventDate,
+                        helperText: fieldErrors.eventDate || "Selecione a data",
+                        onBlur: handleBlur("eventDate"),
                         InputProps: {
                           startAdornment: (
                             <InputAdornment position="start">
@@ -679,7 +773,8 @@ const EventForm = ({
                         fullWidth: true,
                         required: true,
                         error: !!fieldErrors.startTime,
-                        helperText: fieldErrors.startTime,
+                        helperText: fieldErrors.startTime || "Hora de início",
+                        onBlur: handleBlur("startTime"),
                         InputProps: {
                           startAdornment: (
                             <InputAdornment position="start">
@@ -709,7 +804,8 @@ const EventForm = ({
                         fullWidth: true,
                         required: true,
                         error: !!fieldErrors.endTime,
-                        helperText: fieldErrors.endTime,
+                        helperText: fieldErrors.endTime || "Hora de término",
+                        onBlur: handleBlur("endTime"),
                         InputProps: {
                           startAdornment: (
                             <InputAdornment position="start">
@@ -737,8 +833,9 @@ const EventForm = ({
                     label="Local do Evento"
                     value={formData.location}
                     onChange={handleInputChange("location")}
+                    onBlur={handleBlur("location")}
                     error={!!fieldErrors.location}
-                    helperText={fieldErrors.location}
+                    helperText={fieldErrors.location || "Digite o local do evento"}
                     required
                     InputProps={{
                       startAdornment: (
@@ -763,8 +860,9 @@ const EventForm = ({
                     label="Organizador"
                     value={formData.organizer}
                     onChange={handleInputChange("organizer")}
+                    onBlur={handleBlur("organizer")}
                     error={!!fieldErrors.organizer}
-                    helperText={fieldErrors.organizer}
+                    helperText={fieldErrors.organizer || "Nome do organizador"}
                     required
                     InputProps={{
                       startAdornment: (
@@ -786,17 +884,18 @@ const EventForm = ({
 
                 {/* Categoria, Capacidade e Preço */}
                 <Grid item xs={12} sm={4}>
-                  <FormControl fullWidth required sx={{ minWidth: "170px" }}>
+                  <FormControl 
+                    fullWidth 
+                    required 
+                    error={!!fieldErrors.category}
+                    sx={{ minWidth: "170px" }}
+                  >
                     <InputLabel>Categoria</InputLabel>
                     <Select
                       value={formData.category}
                       onChange={handleInputChange("category")}
+                      onBlur={handleBlur("category")}
                       label="Categoria"
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <Tag size={20} />
-                        </InputAdornment>
-                      }
                       sx={{
                         borderRadius: 2,
                       }}
@@ -816,6 +915,11 @@ const EventForm = ({
                         </MenuItem>
                       ))}
                     </Select>
+                    {fieldErrors.category && (
+                      <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 2 }}>
+                        {fieldErrors.category}
+                      </Typography>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -825,8 +929,9 @@ const EventForm = ({
                     type="number"
                     value={formData.capacity}
                     onChange={handleInputChange("capacity")}
+                    onBlur={handleBlur("capacity")}
                     error={!!fieldErrors.capacity}
-                    helperText={fieldErrors.capacity}
+                    helperText={fieldErrors.capacity || "Número de participantes"}
                     required
                     InputProps={{
                       startAdornment: (
