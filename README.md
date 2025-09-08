@@ -15,7 +15,7 @@
 
 ### Demonstração Online
 ✨  **[ACESSE A APLICAÇÃO](https://event-manager-front.onrender.com)**  
-> *Como a aplicação usa hospedagem gratuita (Render), pode haver um pequeno delay no primeiro acesso devido ao "cold start" do servidor.*
+> *Como a aplicação está hospedada em um serviço gratuito (Render), o servidor pode ficar temporariamente inativo quando não há acessos. Por isso, o primeiro acesso pode demorar alguns segundos, mas o servidor volta a funcionar automaticamente logo em seguida.*
 
 ### Acesso Local
 - **Backend:** `http://localhost:8080/api/events`
