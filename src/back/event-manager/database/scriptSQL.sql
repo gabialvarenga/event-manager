@@ -1,3 +1,4 @@
+-- database: ../data/event-manager.db
 -- Criação da tabela de eventos
 CREATE TABLE IF NOT EXISTS events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -10,7 +11,7 @@ CREATE TABLE IF NOT EXISTS events (
     capacity INTEGER NOT NULL CHECK(capacity >= 1),
     description TEXT CHECK(length(description) <= 500),
     price REAL CHECK(price > 0),
-    category TEXT CHECK(category IN ('CONFERENCE', 'WORKSHOP', 'SEMINAR', 'MEETUP', 'TRAINING', 'EXHIBITION', 'NETWORKING', 'OTHER')),
+    category TEXT CHECK(category IN ('CONFERENCE', 'WORKSHOP', 'SEMINAR', 'MEETUP', 'TRAINING', 'EXHIBITION', 'NETWORKING', 'OTHER'))
 );
 
 -- Inserção de dados de exemplo para testes

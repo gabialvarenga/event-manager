@@ -15,7 +15,7 @@
 
 ### Demonstração Online
 ✨  **[ACESSE A APLICAÇÃO](https://event-manager-front.onrender.com)**  
-> *A aplicação está hospedada na plataforma Render.*
+> *Como a aplicação usa hospedagem gratuita (Render), pode haver um pequeno delay no primeiro acesso devido ao "cold start" do servidor.*
 
 ### Acesso Local
 - **Backend:** `http://localhost:8080/api/events`
@@ -25,56 +25,106 @@
 
 ## 📋 Sobre o Projeto
 
+**Recurso Escolhido**: Evento.
+
 O **Event Manager** foi desenvolvido para gerenciar eventos de forma eficiente, oferecendo uma solução completa que inclui cadastro, busca avançada, edição e exclusão de eventos. O sistema foi projetado com foco em qualidade, performance e boas práticas de desenvolvimento.
-
----
-
-## 1. Recurso Escolhido
-
-**Recurso:** Evento
-
-A aplicação Event Manager permite o gerenciamento completo de eventos, desde o cadastro até a busca avançada, com interface amigável e validação de dados.
 
 ### Propriedades do Evento
 
-| Propriedade   | Tipo         | Obrigatório | Descrição                                                                 |
-|---------------|--------------|-------------|---------------------------------------------------------------------------|
-| id            | Long         | Sim         | Identificador único do evento (gerado automaticamente)                    |
-| name          | String       | Sim         | Nome do evento (mínimo 3, máximo 100 caracteres)                          |
-| eventDate     | LocalDate    | Sim         | Data do evento (deve ser futura)                                          |
-| startTime     | LocalTime    | Sim         | Horário de início                                                         |
-| endTime       | LocalTime    | Sim         | Horário de término                                                        |
-| location      | String       | Sim         | Local do evento (máximo 200 caracteres)                                   |
-| organizer     | String       | Sim         | Organizador do evento (máximo 200 caracteres)                             |
-| capacity      | Integer      | Sim         | Capacidade de pessoas (mínimo 1)                                          |
-| description   | String       | Não         | Descrição do evento (máximo 500 caracteres)                               |
-| price         | BigDecimal   | Não         | Preço do evento (maior que zero, até 8 dígitos inteiros e 2 decimais)     |
-| category      | Enum         | Não         | Categoria do evento (ex: CONFERENCE, WORKSHOP, SEMINAR, etc.)             |
+| Propriedade   | Tipo         | Obrigatório | Descrição                                                                 | Validações                        |
+|---------------|--------------|-------------|---------------------------------------------------------------------------|-----------------------------------|
+| id            | Long         | Automático  | Identificador único do evento (gerado automaticamente)                    | @GeneratedValue                   |
+| name          | String       | **Sim**     | Nome do evento                                                            | 3-100 caracteres, @NotBlank      |
+| eventDate     | LocalDate    | **Sim**     | Data do evento (deve ser futura)                                          | @NotNull, @Future                 |
+| startTime     | LocalTime    | **Sim**     | Horário de início                                                         | @NotNull, formato HH:mm           |
+| endTime       | LocalTime    | **Sim**     | Horário de término (deve ser após início)                                 | @NotNull, formato HH:mm           |
+| location      | String       | **Sim**     | Local do evento                                                           | @NotBlank, máximo 200 caracteres |
+| organizer     | String       | **Sim**     | Organizador do evento                                                     | @NotBlank, máximo 200 caracteres |
+| capacity      | Integer      | **Sim**     | Capacidade de pessoas                                                     | @NotNull, @Min(1)                |
+| description   | String       | Opcional    | Descrição do evento                                                       | Máximo 500 caracteres            |
+| price         | BigDecimal   | Opcional    | Preço do evento                                                           | > 0, até 8 dígitos + 2 decimais  |
+| category      | EventCategory| Opcional    | Categoria do evento                                                       | Enum com 10 opções disponíveis   |
 
 ## 2. 🛠 Tecnologias Utilizadas
 
+### **Linguagem Escolhida: Java 21**
+O Java foi escolhido como linguagem principal do backend por oferecer:
+- **Robustez e maturidade** para aplicações empresariais
+- **Ecossistema Spring** consolidado e bem documentado  
+- **Tipagem estática** que reduz erros em tempo de execução
+- **Facilidade de manutenção** e escalabilidade
+- **Suporte LTS** garantindo estabilidade a longo prazo
+
 ### Backend
 - **Java 21** (LTS) - Linguagem principal
-- **Spring Boot 3.5.5** - Framework web
-- **SQLite + Hibernate** - Banco de dados e ORM
-- **Maven** - Gerenciamento de dependências
-- **JUnit 5 + Mockito** - Testes unitários
+- **Spring Boot 3.5.5** - Framework web e injeção de dependência
+- **Spring Data JPA** - Mapeamento objeto-relacional
+- **SQLite** - Banco de dados embarcado
+- **Maven** - Gerenciamento de dependências e build
+- **Bean Validation** - Validação de dados
+- **JUnit 5 + Mockito** - Testes unitários e mocks
 
 ### Frontend  
-- **React 19** - Biblioteca de interface
-- **Material-UI (MUI)** - Componentes de UI
-- **Vite** - Build tool e dev server
+- **React 18** - Biblioteca para construção de interfaces
+- **Material-UI (MUI)** - Sistema de design e componentes
+- **Day.js** - Manipulação de datas
+- **Vite** - Build tool e servidor de desenvolvimento
+- **Lucide React** - Ícones modernos
 
-### DevOps
+### DevOps e Infraestrutura
 - **Docker & Docker Compose** - Containerização
+- **Render** - Plataforma de hospedagem
+- **SQLite** - Persistência de dados
 
-## 3. Instalação Rápida
+## 3. 📦 Instalação de Dependências
 
-### Pré-requisitos
+### **Pré-requisitos Obrigatórios**
 
-- **Java 21+** ([Download](https://openjdk.org/))
-- **Node.js 18+** ([Download](https://nodejs.org/))
-- **Docker** (opcional - [Download](https://docker.com/))
+#### **Java 21+ (LTS)**
+```bash
+# Verificar versão instalada
+java -version
+
+# Se não estiver instalado:
+# Windows: Baixar do site oficial
+# macOS: brew install openjdk@21  
+# Ubuntu: sudo apt install openjdk-21-jdk
+```
+- **Download:** [OpenJDK](https://openjdk.org/) ou [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
+- **Configurar JAVA_HOME** no seu sistema operacional
+
+#### **Node.js 18+ e npm**
+```bash
+# Verificar versões instaladas
+node --version
+npm --version
+
+# Se não estiver instalado:
+# Baixar do site oficial ou usar gerenciador de versão
+```
+- **Download:** [Node.js](https://nodejs.org/) (inclui npm automaticamente)
+- **Alternativa:** Use nvm para gerenciar versões do Node
+
+#### **Maven (Opcional)**
+```bash
+# Verificar se Maven está instalado
+mvn --version
+
+# O projeto inclui Maven Wrapper (./mvnw), então não é obrigatório
+```
+
+### **Dependências Opcionais**
+
+#### **Docker & Docker Compose**
+```bash
+# Verificar instalação
+docker --version
+docker-compose --version
+```
+- **Download:** [Docker Desktop](https://www.docker.com/)
+- **Necessário apenas** para execução containerizada
+
+## 4. 🚀 Instruções de Inicialização
 
 ### Opção 1: Execução Local
 
@@ -86,29 +136,33 @@ cd event-manager
 # 2. Backend (Terminal 1)
 cd src/back/event-manager
 ./mvnw spring-boot:run
+# Aguarde: "Started EventManagerApplication"
 
 # 3. Frontend (Terminal 2)  
 cd src/front/event-manager
 npm install
 npm run dev
+# Aguarde: "Local: http://localhost:5173"
 ```
 
 ### Opção 2: Docker
 
 ```bash
-# Na raiz do projeto
-docker-compose up -d
+# Na raiz do projeto backend
+cd src/back/event-manager
+docker-compose up --build
 ```
 
-**Pronto! Acesse:**
-- Frontend: http://localhost:5173
-- Backend: http://localhost:8080/api/events
+**✅ Pronto! Acesse:**
+- **Frontend:** http://localhost:5173
+- **Backend API:** http://localhost:8080/api/events (via Docker) ou http://localhost:8081/api/events (execução local)
+- **Banco de dados:** SQLite (arquivo local)
 
 ## 📚 Documentação Completa
 
-Para informações detalhadas sobre implementação, acesse:
+Para informações detalhadas sobre implementação e uso, acesse:
 
-- **[📋 SETUP.md](./docs/SETUP.md)** - Guia completo de instalação e configuração
+- **[📋 SETUP.md](./SETUP.md)** - Guia completo de instalação e configuração
 
 ---
 
@@ -116,76 +170,151 @@ Para informações detalhadas sobre implementação, acesse:
 
 O banco de dados é criado automaticamente pelo JPA usando SQLite, mas seu esquema está definido em:
 
-Arquivo: `src/back/event-manager/database/scriptSQL.sql`
+Arquivo: `src/back/event-manager/database/create_tables.sql`
 
 ```sql
-CREATE TABLE events (
+CREATE TABLE IF NOT EXISTS events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL CHECK(length(name) >= 3 AND length(name) <= 100),
     event_date DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
-    location TEXT NOT NULL,
-    organizer TEXT NOT NULL,
-    capacity INTEGER NOT NULL,
-    description TEXT,
-    price REAL,
-    category TEXT
+    location TEXT NOT NULL CHECK(length(location) <= 200),
+    organizer TEXT NOT NULL CHECK(length(organizer) <= 200),
+    capacity INTEGER NOT NULL CHECK(capacity >= 1),
+    description TEXT CHECK(length(description) <= 500),
+    price REAL CHECK(price > 0),
+    category TEXT CHECK(category IN ('CONFERENCE', 'WORKSHOP', 'SEMINAR', 'MEETUP', 'TRAINING', 'EXHIBITION', 'NETWORKING', 'OTHER'))
 );
 ```
 
-O banco de dados já contém dados de exemplo para testes.
+## 🎮 Como Usar a Aplicação
 
-## 6. Funcionalidades da Aplicação
+### 1. **Acesso à Aplicação**
 
-### Listar Eventos
+#### **Demonstração Online**
+✨  **[ACESSE A DEMONSTRAÇÃO](https://event-manager-front.onrender.com)**  
+- Aguarde alguns segundos para o carregamento inicial (cold start)  
+- A aplicação está pronta para uso imediato  
+- Todos os dados são resetados periodicamente para demonstração
 
-A aplicação exibe todos os eventos cadastrados em uma lista com paginação, ordenação e filtragem.
+#### **Acesso Local**
+- **Frontend:** http://localhost:5173
+- **Backend API:** http://localhost:8081/api/events
 
-- **Endpoint**: `GET /api/events`
-- **Interface**: Página principal com cards de eventos
-- **Campos exibidos**: Nome, data, local, organizador, capacidade
+---
 
-### Buscar por ID
+### 2. **Primeiros Passos na Aplicação**
 
-Permite visualizar detalhes completos de um evento específico.
+#### **Dashboard Principal**
+- Visualize todos os eventos cadastrados em cards organizados
+- Use a **barra de busca** no topo para encontrar eventos específicos
+- **Filtros disponíveis:** Data, categoria, organizador, preço
+- **Ordenação:** Por data, nome, capacidade ou preço
 
-- **Endpoint**: `GET /api/events/{id}`
-- **Interface**: Clique em um evento para ver todos os detalhes
-- **Resposta**: Dados completos do evento ou erro 404 se não encontrado
+#### **Navegação**
+- **Página inicial:** Lista todos os eventos
+- **Botão "+" flutuante:** Criar novo evento  
+- **Ícones nos cards:** Editar (✏️) ou Excluir (🗑️) eventos
 
-### Cadastrar Evento
+---
 
-Adiciona novo evento com validação completa dos dados.
+### 3. **Funcionalidades Detalhadas**
 
-- **Endpoint**: `POST /api/events`
-- **Interface**: Botão "+" (flutuante) abre formulário modal
-- **Validação**: Campos obrigatórios, formatos, restrições de data/hora
+#### **📅 Criar Novo Evento**
+**Como usar:**
+1. Clique no **botão "+" flutuante** no canto inferior direito
+2. Preencha o formulário com os dados do evento:
+   - **Nome:** `Workshop React Avançado` (obrigatório, 3-100 caracteres)
+   - **Data:** `2025-12-15` (obrigatório, deve ser futura)
+   - **Horário Início:** `09:00` (obrigatório)
+   - **Horário Fim:** `17:00` (obrigatório, após o início)
+   - **Local:** `Auditório Principal - DTI Digital` (obrigatório, máx 200 chars)
+   - **Organizador:** `Equipe Desenvolvimento` (obrigatório, máx 200 chars)
+   - **Capacidade:** `50` (obrigatório, mínimo 1)
+   - **Categoria:** `WORKSHOP` (opcional)
+   - **Preço:** `149.90` (opcional, deve ser positivo)
+   - **Descrição:** `Workshop intensivo sobre React...` (opcional, máx 500 chars)
+3. Clique em **"Salvar Evento"**
+4. **Resultado:** Evento criado e adicionado à lista principal
 
-### Atualizar Evento
+#### **🔍 Buscar e Filtrar Eventos**
+**Como usar:**
+1. **Busca rápida:** Digite no campo "Buscar eventos..." no topo
+   - Exemplo: `React` encontrará eventos com "React" no nome
+2. **Busca por ID:** Digite apenas números
+   - Exemplo: `1` encontrará o evento com ID 1
+3. **Filtros avançados:** Use os seletores laterais
+   - **Por categoria:** Selecione `WORKSHOP`, `CONFERENCE`, etc.
+   - **Por data:** Filtre eventos de períodos específicos
+   - **Por organizador:** Digite nome do organizador
+4. **Ordenação:** Clique nos cabeçalhos das colunas para ordenar
 
-Modifica dados de um evento existente.
+#### **✏️ Editar Evento Existente**
+**Como usar:**
+1. Localize o evento na lista principal
+2. Clique no **ícone de edição (✏️)** no card do evento
+3. O formulário abrirá **preenchido** com os dados atuais
+4. Modifique os campos desejados
+   - Exemplo: Alterar capacidade de `50` para `75`
+   - Exemplo: Atualizar data de `2025-12-15` para `2025-12-20`
+5. Clique em **"Atualizar Evento"**
+6. **Resultado:** Evento atualizado imediatamente na lista
 
-- **Endpoint**: `PUT /api/events/{id}`
-- **Interface**: Ícone de edição na lista de eventos
-- **Funcionamento**: Formulário preenchido com dados atuais para edição
+#### **🗑️ Excluir Evento**
+**Como usar:**
+1. Localize o evento na lista principal
+2. Clique no **ícone de exclusão (🗑️)** no card do evento
+3. **Confirme a exclusão** no diálogo que aparece
+4. **Resultado:** Evento removido permanentemente
 
-### Deletar Evento
+#### **📊 Visualizar Detalhes Completos**
+**Como usar:**
+1. Clique em **qualquer card de evento** na lista
+2. Uma **janela modal** abrirá mostrando:
+   - Todas as informações do evento
+   - Data e horários formatados
+   - Preço (se informado)
+   - Descrição completa
+   - Categoria com ícone
 
-Remove evento do banco de dados com confirmação.
+---
 
-- **Endpoint**: `DELETE /api/events/{id}`
-- **Interface**: Ícone de lixeira abre diálogo de confirmação
-- **Funcionamento**: Remoção com mensagem de sucesso ou erro
+### 4. **Exemplo de Uso Rápido**
 
-### Buscar e Filtrar
+#### **Cenário: Criar evento de workshop**
+1. **Acesse** a aplicação
+2. **Clique** no botão "+" flutuante
+3. **Preencha** os dados:
+   - Nome: `Workshop React Hooks`
+   - Data: `2025-12-10`
+   - Início: `14:00` / Fim: `18:00`
+   - Local: `Sala 201 - Centro de Treinamento`
+   - Organizador: `João Silva`
+   - Capacidade: `30`
+   - Categoria: `WORKSHOP`
+   - Preço: `99.90`
+4. **Salve** o evento
+5. **Verifique** na lista principal que o evento foi criado
 
-Diversas opções de busca e filtragem de eventos.
+#### **Cenário: Buscar eventos por categoria**
+1. **Use** o filtro de categoria no topo
+2. **Selecione** "Workshop"
+3. **Visualize** apenas eventos dessa categoria
+4. **Clique** em um evento para ver detalhes completos
 
-- **Busca textual**: Por nome ou ID do evento
-- **Filtros**: Por data, categoria, organizador, local e preço
-- **Ordenação**: Por diferentes campos (data, nome, capacidade)
-- **Interface**: Campo de busca e painel de filtros avançados
+---
+
+### 5. **⚡ Dicas de Uso**
+
+- **Validação em tempo real:** Erros aparecem conforme você digita
+- **Data futura obrigatória:** Sistema não permite eventos no passado
+- **Horários válidos:** Fim deve ser sempre depois do início
+- **Preços opcionais:** Deixe em branco para eventos gratuitos
+- **Backup automático:** Dados salvos automaticamente no SQLite
+- **Interface responsiva:** Funciona em desktop, tablet e mobile
+
+⚡ **Nota:** Se usando a demonstração online, pode haver um pequeno delay no primeiro acesso devido ao "cold start" do servidor Render.
 
 ## 7. Testes Unitários
 
@@ -252,7 +381,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     volumes:
-      - ./src/back/event-manager/data:/app/data
+      - ./database:/app/database
   
   frontend:
     build: ./src/front/event-manager
@@ -287,8 +416,7 @@ docker-compose down
 ```
 src/back/event-manager/
 ├── Dockerfile                 # Container backend
-├── data/                      # Banco de dados SQLite
-├── database/                  # Scripts SQL
+├── database/                  # SQLite e scripts
 │   ├── event-manager.db       # Banco de dados
 │   └── scriptSQL.sql          # Script de criação
 ├── logs/                      # Arquivos de log
@@ -417,18 +545,86 @@ Content-Type: application/json
 ]
 ```
 
-### 🔧 Outros Endpoints Disponíveis
+## API REST - Endpoints Disponíveis
 
-| Método | Endpoint | Descrição | Exemplo |
-|--------|----------|-----------|---------|
-| GET | `/api/events` | Lista todos os eventos | `GET /api/events?page=0&size=10` |
-| GET | `/api/events/{id}` | Busca evento por ID | `GET /api/events/1` |
-| GET | `/api/events/search` | Busca com filtros | `GET /api/events/search?name=React&category=WORKSHOP` |
-| PUT | `/api/events/{id}` | Atualiza evento | `PUT /api/events/1` |
-| DELETE | `/api/events/{id}` | Remove evento | `DELETE /api/events/1` |
-| GET | `/api/events/organizer/{name}` | Eventos por organizador | `GET /api/events/organizer/DTI Digital` |
-| GET | `/api/events/location/{location}` | Eventos por local | `GET /api/events/location/Auditório` |
-| GET | `/api/events/date-range` | Eventos por período | `GET /api/events/date-range?start=2025-01-01&end=2025-12-31` |
+### **Endpoints Principais**
+
+| Método | Endpoint | Descrição | Status de Resposta |
+|--------|----------|-----------|-------------------|
+| GET | `/api/events` | Lista todos os eventos | 200 OK |
+| GET | `/api/events/{id}` | Busca evento por ID | 200 OK / 404 Not Found |
+| POST | `/api/events` | Cria novo evento | 201 Created / 400 Bad Request |
+| PUT | `/api/events/{id}` | Atualiza evento completo | 200 OK / 404 Not Found |
+| DELETE | `/api/events/{id}` | Remove evento | 204 No Content / 404 Not Found |
+
+### **Endpoints de Busca Avançada**
+
+| Método | Endpoint | Descrição | Parâmetros |
+|--------|----------|-----------|------------|
+| GET | `/api/events/category/{category}` | Eventos por categoria | category: WORKSHOP, CONFERENCE, etc. |
+| GET | `/api/events/date-range` | Eventos por período | startDate, endDate (yyyy-MM-dd) |
+| GET | `/api/events/organizer` | Eventos por organizador | organizer (query param) |
+| GET | `/api/events/search` | Busca por nome | name (query param) |
+| GET | `/api/events/search/global` | Busca por nome ou ID | query (query param) |
+| GET | `/api/events/upcoming/category/{category}` | Próximos eventos por categoria | category |
+
+### **Exemplos de Uso da API**
+
+#### **📝 Criar Evento (POST)**
+```bash
+# URL: POST http://localhost:8081/api/events
+curl -X POST http://localhost:8081/api/events \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Workshop React Avançado",
+    "eventDate": "2025-12-10",
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "location": "Auditório Principal",
+    "organizer": "DTI Digital",
+    "capacity": 50,
+    "description": "Workshop intensivo sobre React Hooks e Context API",
+    "price": 149.90,
+    "category": "WORKSHOP"
+  }'
+```
+
+#### **🔍 Buscar por Categoria (GET)**
+```bash
+# URL: GET http://localhost:8081/api/events/category/WORKSHOP
+curl http://localhost:8081/api/events/category/WORKSHOP
+```
+
+#### **📅 Buscar por Período (GET)**
+```bash
+# URL: GET http://localhost:8081/api/events/date-range?startDate=2025-01-01&endDate=2025-12-31
+curl "http://localhost:8081/api/events/date-range?startDate=2025-01-01&endDate=2025-12-31"
+```
+
+#### **✏️ Atualizar Evento (PUT)**
+```bash
+# URL: PUT http://localhost:8081/api/events/1
+curl -X PUT http://localhost:8081/api/events/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Workshop React Avançado - ATUALIZADO",
+    "eventDate": "2025-12-15",
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "location": "Auditório Principal",
+    "organizer": "DTI Digital",
+    "capacity": 75,
+    "description": "Workshop intensivo atualizado",
+    "price": 179.90,
+    "category": "WORKSHOP"
+  }'
+```
+
+#### **🗑️ Excluir Evento (DELETE)**
+```bash
+# URL: DELETE http://localhost:8081/api/events/1
+curl -X DELETE http://localhost:8081/api/events/1
+```
 
 ## 13. Considerações Finais
 
@@ -461,18 +657,15 @@ Content-Type: application/json
 
 ---
 
-## Conclusão
+### **🔗 Links Importantes**
 
-O **Event Manager** é uma aplicação desenvolvida como parte do processo seletivo da DTI Digital, demonstrando:
+- **🌐 Demonstração Online:** [https://event-manager-front.onrender.com](https://event-manager-front.onrender.com)
+- **📱 API Backend:** [https://event-manager-grkf.onrender.com](https://event-manager-grkf.onrender.com)
+- **💻 Repositório:** [https://github.com/gabialvarenga/event-manager](https://github.com/gabialvarenga/event-manager)
 
-- **Competência técnica** em desenvolvimento full-stack
-- **Boas práticas** de engenharia de software
-- **Qualidade de código** com testes
-- **Capacidade de entrega** com documentação completa
-- **Visão de produto** com interface moderna e funcional
-- **Deploy e DevOps** com containerização e hospedagem em nuvem
+### **⚡ Nota Final**
 
-A aplicação está pronta para produção, com todas as funcionalidades implementadas, testadas e documentadas.
+O sistema está completamente funcional e pode ser utilizado imediatamente. A demonstração online permite testar todas as funcionalidades sem necessidade de instalação local.
 
 ---
 **Desenvolvido por Gabriela Alvarenga** ✨  
