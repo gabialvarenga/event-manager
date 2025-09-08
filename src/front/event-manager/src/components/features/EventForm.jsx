@@ -37,6 +37,7 @@ import {
   Tag,
   Save,
   Loader,
+  Info,
 } from "lucide-react";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
@@ -162,11 +163,6 @@ const EventForm = ({
           error = "Capacidade deve ser maior que zero";
         }
         break;
-      case "category":
-        if (!formData.category) {
-          error = "Categoria é obrigatória";
-        }
-        break;
       case "startTime":
         if (!formData.startTime) {
           error = "Horário de início é obrigatório";
@@ -217,11 +213,6 @@ const EventForm = ({
       newFieldErrors.capacity = "Capacidade deve ser maior que zero";
     }
 
-    if (!formData.category) {
-      newErrors.push("Categoria é obrigatória");
-      newFieldErrors.category = "Categoria é obrigatória";
-    }
-
     if (!formData.startTime) {
       newErrors.push("Horário de início é obrigatório");
       newFieldErrors.startTime = "Horário de início é obrigatório";
@@ -232,7 +223,6 @@ const EventForm = ({
       newFieldErrors.endTime = "Horário de término é obrigatório";
     }
 
-    // Validações adicionais
     if (formData.eventDate && dayjs(formData.eventDate).isBefore(dayjs(), 'day')) {
       newErrors.push("Data do evento não pode ser no passado");
       newFieldErrors.eventDate = "Data do evento não pode ser no passado";
@@ -297,7 +287,7 @@ const EventForm = ({
       {isPage ? (
         <Box
           sx={{
-            maxWidth: 900,
+            maxWidth: 1500,
             mx: "auto",
             my: 0,
             p: { xs: 2, sm: 6 },
@@ -309,9 +299,9 @@ const EventForm = ({
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
-            <Calendar size={28} color="#1E88E5" />
-            <Typography variant="h5" sx={{ fontWeight: 700, color: "#1E88E5" }}>
-              {isEdit ? "Editar Evento" : "Criar Novo Evento"}
+            <Info size={25} color="#1E88E5" />
+            <Typography variant="h4" sx={{ fontWeight: 600, color: "#1E88E5" }}>
+              {"Informações"}
             </Typography>
           </Box>
           {errors.length > 0 && (
@@ -326,8 +316,10 @@ const EventForm = ({
               </ul>
             </Alert>
           )}
-          <Grid container spacing={3}>
-            {/*  o Evento*/}
+
+          {/*Formulário*/}
+          <Grid>
+            {/*Nome doo Evento*/}
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -336,7 +328,6 @@ const EventForm = ({
                 onChange={handleInputChange("name")}
                 onBlur={handleBlur("name")}
                 error={!!fieldErrors.name}
-                helperText={fieldErrors.name || "Digite o nome do evento"}
                 required
                 InputProps={{
                   startAdornment: (
@@ -350,12 +341,12 @@ const EventForm = ({
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
+                    borderRadius: 1,
                   },
+                  mb: 3,
                 }}
               />
             </Grid>
-
             {/* Data e Horários*/}
             <Grid item xs={12} sm={4}>
               <DatePicker
@@ -368,12 +359,12 @@ const EventForm = ({
                     fullWidth: true,
                     required: true,
                     error: !!fieldErrors.eventDate,
-                    helperText: fieldErrors.eventDate || "Selecione a data",
                     onBlur: handleBlur("eventDate"),
                     sx: {
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                       },
+                      mb: 3,
                     },
                   },
                 }}
@@ -389,7 +380,6 @@ const EventForm = ({
                     fullWidth: true,
                     required: true,
                     error: !!fieldErrors.startTime,
-                    helperText: fieldErrors.startTime || "Hora de início",
                     onBlur: handleBlur("startTime"),
                     InputProps: {
                       startAdornment: (
@@ -403,8 +393,9 @@ const EventForm = ({
                     },
                     sx: {
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                       },
+                      mb: 3,
                     },
                   },
                 }}
@@ -420,7 +411,6 @@ const EventForm = ({
                     fullWidth: true,
                     required: true,
                     error: !!fieldErrors.endTime,
-                    helperText: fieldErrors.endTime || "Hora de término",
                     onBlur: handleBlur("endTime"),
                     InputProps: {
                       startAdornment: (
@@ -434,8 +424,9 @@ const EventForm = ({
                     },
                     sx: {
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                       },
+                      mb: 3,
                     },
                   },
                 }}
@@ -451,7 +442,6 @@ const EventForm = ({
                 onChange={handleInputChange("location")}
                 onBlur={handleBlur("location")}
                 error={!!fieldErrors.location}
-                helperText={fieldErrors.location || "Digite o local do evento"}
                 required
                 InputProps={{
                   startAdornment: (
@@ -462,8 +452,9 @@ const EventForm = ({
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
+                    borderRadius: 1,
                   },
+                  mb: 3,
                 }}
               />
             </Grid>
@@ -475,7 +466,6 @@ const EventForm = ({
                 onChange={handleInputChange("organizer")}
                 onBlur={handleBlur("organizer")}
                 error={!!fieldErrors.organizer}
-                helperText={fieldErrors.organizer || "Nome do organizador"}
                 required
                 InputProps={{
                   startAdornment: (
@@ -486,8 +476,9 @@ const EventForm = ({
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
+                    borderRadius: 1,
                   },
+                  mb: 3,
                 }}
               />
             </Grid>
@@ -512,7 +503,7 @@ const EventForm = ({
                     />
                   }
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 1,
                     mb: 3,
                   }}
                 >
@@ -548,8 +539,9 @@ const EventForm = ({
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
+                    borderRadius: 1,
                   },
+                  mb: 2,
                 }}
               />
             </Grid>
@@ -577,8 +569,9 @@ const EventForm = ({
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
+                    borderRadius: 1,
                   },
+                  mb: 2,
                 }}
               />
             </Grid>
@@ -595,17 +588,17 @@ const EventForm = ({
                 inputProps={{ maxLength: 500 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
+                    borderRadius: 1,
                   },
                 }}
               />
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                sx={{ float: "right", mt: 0.5 }}
-              >
-                {formData.description.length}/500
-              </Typography>
+             <Typography
+                    variant="caption"
+                    color="textSecondary"
+                    sx={{ float: "right", mt: 0.5 }}
+                  >
+                    {formData.description.length}/500
+                  </Typography>
             </Grid>
           </Grid>
           <Box
@@ -615,7 +608,7 @@ const EventForm = ({
               onClick={handleClose}
               variant="outlined"
               sx={{
-                borderRadius: 2,
+                borderRadius: 1,
                 textTransform: "none",
                 fontWeight: 600,
               }}
@@ -634,7 +627,7 @@ const EventForm = ({
                 )
               }
               sx={{
-                borderRadius: 2,
+                borderRadius: 1,
                 textTransform: "none",
                 fontWeight: 600,
                 background: "linear-gradient(135deg, #1E88E5 0%, #1976D2 100%)",
@@ -736,7 +729,7 @@ const EventForm = ({
                     }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                         mb: 3,
                       },
                     }}
@@ -758,7 +751,7 @@ const EventForm = ({
                         onBlur: handleBlur("eventDate"),
                         sx: {
                           "& .MuiOutlinedInput-root": {
-                            borderRadius: 2,
+                            borderRadius: 1,
                           },
                           mb: 3,
                         },
@@ -780,7 +773,7 @@ const EventForm = ({
                         onBlur: handleBlur("startTime"),
                         sx: {
                           "& .MuiOutlinedInput-root": {
-                            borderRadius: 2,
+                            borderRadius: 1,
                           },
                           mb: 3,
                         },
@@ -802,7 +795,7 @@ const EventForm = ({
                         onBlur: handleBlur("endTime"),
                         sx: {
                           "& .MuiOutlinedInput-root": {
-                            borderRadius: 2,
+                            borderRadius: 1,
                           },
                           mb: 3,
                         },
@@ -833,7 +826,7 @@ const EventForm = ({
                     }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                       },
                       mb: 3,
                     }}
@@ -860,7 +853,7 @@ const EventForm = ({
                     }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                       },
                       mb: 3,
                     }}
@@ -888,7 +881,7 @@ const EventForm = ({
                         />
                       }
                       sx={{
-                        borderRadius: 2,
+                        borderRadius: 1,
                         mb: 3,
                       }}
                     >
@@ -933,7 +926,7 @@ const EventForm = ({
                     }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                       },
                       mb: 3,
                     }}
@@ -948,6 +941,8 @@ const EventForm = ({
                     value={formData.price}
                     onChange={handleInputChange("price")}
                     error={!!fieldErrors.price}
+                    helperText={
+                    fieldErrors.price || "Deixe em branco para evento gratuito"}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -960,7 +955,7 @@ const EventForm = ({
                     }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                       },
                       mb: 3,
                     }}
@@ -979,7 +974,7 @@ const EventForm = ({
                     inputProps={{ maxLength: 500 }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 2,
+                        borderRadius: 1,
                       },
                     }}
                   />
@@ -1001,7 +996,7 @@ const EventForm = ({
               variant="outlined"
               disabled={loading}
               sx={{
-                borderRadius: 2,
+                borderRadius: 1,
                 textTransform: "none",
                 fontWeight: 600,
               }}
@@ -1020,7 +1015,7 @@ const EventForm = ({
                 )
               }
               sx={{
-                borderRadius: 2,
+                borderRadius: 1,
                 textTransform: "none",
                 fontWeight: 600,
                 background: "linear-gradient(135deg, #1E88E5 0%, #1976D2 100%)",

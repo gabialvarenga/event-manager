@@ -76,7 +76,7 @@ const CreateEventPage = () => {
         
         <Box sx={{ position: 'relative', zIndex: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-            <Calendar size={40} />
+            <Calendar size={80} />
             <Box>
               <Typography variant="h3" component="h1" sx={{ fontWeight: 700 }}>
                 Criar Novo Evento
