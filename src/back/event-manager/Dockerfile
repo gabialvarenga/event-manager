@@ -7,6 +7,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/data/event-manager.db /app/data/event-manager.db
 RUN mkdir -p /app/data
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+EXPOSE 8081
+ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar", "app.jar"]
