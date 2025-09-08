@@ -25,7 +25,7 @@ class EventCategoryTest {
 
     @Test
     void testDisplayNames() {
-        // Given & When & Then
+        
         assertEquals("Conferência", EventCategory.CONFERENCE.getDisplayName());
         assertEquals("Workshop", EventCategory.WORKSHOP.getDisplayName());
         assertEquals("Seminário", EventCategory.SEMINAR.getDisplayName());
