@@ -8,5 +8,5 @@ services:
     volumes:
       - ./data:/app/data 
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/event-manager.db
+      - SPRING_PROFILES_ACTIVE=docker
     restart: unless-stopped
