@@ -1,4 +1,4 @@
-# 🌸 Event Manager - Documentação Completa
+# Event Manager 
 
 **Desafio Técnico DTI Digital** - Sistema completo para gerenciamento de eventos com interface moderna, validação robusta e funcionalidades avançadas.
 
@@ -15,7 +15,7 @@
 
 ### Demonstração Online
 ✨  **[ACESSE A APLICAÇÃO](https://event-manager-front.onrender.com)**  
-> *A aplicação está hospedada na plataforma Render. Pode haver um pequeno atraso no primeiro acesso devido ao "cold start".*
+> *A aplicação está hospedada na plataforma Render.*
 
 ### Acesso Local
 - **Backend:** `http://localhost:8080/api/events`
@@ -51,73 +51,68 @@ A aplicação Event Manager permite o gerenciamento completo de eventos, desde o
 | price         | BigDecimal   | Não         | Preço do evento (maior que zero, até 8 dígitos inteiros e 2 decimais)     |
 | category      | Enum         | Não         | Categoria do evento (ex: CONFERENCE, WORKSHOP, SEMINAR, etc.)             |
 
-## 2. Linguagem e Tecnologias
+## 2. 🛠 Tecnologias Utilizadas
 
-- **Backend:** Java 21 com Spring Boot 3.5.5
-- **Frontend:** React com Material UI e Vite
-- **Banco de Dados:** SQLite
-- **Validação:** Jakarta Bean Validation
-- **Testes:** JUnit 5, Mockito, Spring Boot Test
+### Backend
+- **Java 21** (LTS) - Linguagem principal
+- **Spring Boot 3.5.5** - Framework web
+- **SQLite + Hibernate** - Banco de dados e ORM
+- **Maven** - Gerenciamento de dependências
+- **JUnit 5 + Mockito** - Testes unitários
 
-## 3. Instalação e Configuração
+### Frontend  
+- **React 19** - Biblioteca de interface
+- **Material-UI (MUI)** - Componentes de UI
+- **Vite** - Build tool e dev server
+
+### DevOps
+- **Docker & Docker Compose** - Containerização
+
+## 3. Instalação Rápida
 
 ### Pré-requisitos
 
-- Java 21
-- Node.js e npm
-- Maven (ou use o Maven Wrapper incluso)
+- **Java 21+** ([Download](https://openjdk.org/))
+- **Node.js 18+** ([Download](https://nodejs.org/))
+- **Docker** (opcional - [Download](https://docker.com/))
 
-### Passos para Instalar Dependências
+### Opção 1: Execução Local
 
-#### Backend
+```bash
+# 1. Clone o repositório
+git clone https://github.com/gabialvarenga/event-manager.git
+cd event-manager
 
-1. Navegue até a pasta do backend:
-   ```
-   cd src/back/event-manager
-   ```
-2. Instale as dependências:
-   ```
-   ./mvnw clean install
-   ```
-   Ou se estiver usando Windows:
-   ```
-   mvnw.cmd clean install
-   ```
+# 2. Backend (Terminal 1)
+cd src/back/event-manager
+./mvnw spring-boot:run
 
-#### Frontend
+# 3. Frontend (Terminal 2)  
+cd src/front/event-manager
+npm install
+npm run dev
+```
 
-1. Navegue até a pasta do frontend:
-   ```
-   cd src/front/event-manager
-   ```
-2. Instale as dependências:
-   ```
-   npm install
-   ```
+### Opção 2: Docker
 
-## 4. Como Executar a Aplicação
+```bash
+# Na raiz do projeto
+docker-compose up -d
+```
 
-### Backend
+**Pronto! Acesse:**
+- Frontend: http://localhost:5173
+- Backend: http://localhost:8080/api/events
 
-1. Inicie o backend (a partir da pasta src/back/event-manager):
-   ```
-   ./mvnw spring-boot:run
-   ```
-   Ou se estiver usando Windows:
-   ```
-   mvnw.cmd spring-boot:run
-   ```
-2. A API estará disponível em: `http://localhost:8080/api/events`
+## 📚 Documentação Completa
 
-### Frontend
+Para informações detalhadas sobre implementação, acesse:
 
-1. Inicie o frontend (a partir da pasta src/front/event-manager):
-   ```
-   npm run dev
-   ```
-2. A interface estará disponível em: `http://localhost:5173` (ou porta informada pelo Vite)
+- **[📋 SETUP.md](./docs/SETUP.md)** - Guia completo de instalação e configuração
 
-## 5. Estrutura do Banco de Dados
+---
+
+## 4. Estrutura do Banco de Dados
 
 O banco de dados é criado automaticamente pelo JPA usando SQLite, mas seu esquema está definido em:
 
@@ -194,51 +189,35 @@ Diversas opções de busca e filtragem de eventos.
 
 ## 7. Testes Unitários
 
-### ✅ Implementação Completa
+1. **Testes de Model (`EventTest`)**
+   - Validação de campos obrigatórios
+   - Regras de negócio (data futura, horário válido)
+   - Construtores e métodos auxiliares
 
-O projeto implementa um conjunto abrangente de testes unitários, demonstrando alta qualidade e robustez do código:
+2. **Testes de Service (`EventServiceTest`)**
+   - Operações CRUD completas
+   - Buscas por diferentes critérios
+   - Validações de negócio
 
-### Testes de Model
+3. **Testes de Controller (`EventControllerTest`)**
+   - Endpoints REST completos
+   - Códigos de status HTTP corretos
+   - Serialização/deserialização JSON
 
-- **Classe**: `EventTest`
-- **Cobertura**: Validação de campos, regras de negócio (data futura, horário válido)
-- **Casos de teste**: Criação válida, validação de horários, valores nulos
-- **Tecnologia**: JUnit 5 com validação Bean Validation
+4. **Testes de Enum (`EventCategoryTest`)**
+   - Valores do enum
+   - Métodos de conversão
+   - Nomes de exibição
 
-### Testes de Service
-
-- **Classe**: `EventServiceTest`
-- **Cobertura**: CRUD completo, buscas por diferentes critérios
-- **Tecnologia**: Mockito para simulação do repositório
-- **Casos testados**: Criação, atualização, exclusão, busca por categoria, validação de negócio
-
-### Testes de Controller
-
-- **Classe**: `EventControllerTest`
-- **Cobertura**: Endpoints REST, códigos de status HTTP
-- **Tecnologia**: MockMvc para testes de API
-- **Cenários**: Requisições válidas, tratamento de erros, validação de entrada
-
-### Testes de Enum
-
-- **Classe**: `EventCategoryTest`
-- **Cobertura**: Valores, nomes de exibição, conversões
-- **Validação**: Integridade dos valores do enum EventCategory
-
-### Testes de Integração
-
-- **Classe**: `EventManagerApplicationTests`
-- **Cobertura**: Carregamento do contexto Spring
-- **Configuração**: H2 em memória para testes
+5. **Testes de Integração (`EventManagerApplicationTests`)**
+   - Carregamento do contexto Spring
+   - Configuração da aplicação
 
 ### Executar Testes
 
 ```bash
 # A partir da pasta src/back/event-manager
 ./mvnw test
-
-# Ou para gerar relatório de cobertura
-./mvnw test jacoco:report
 ```
 
 ## 8. Docker e Containerização
@@ -299,198 +278,57 @@ docker-compose ps
 docker-compose down
 ```
 
-## 9. Sistema de Logs
-
-### 📝 Implementação de Logs
-
-O sistema implementa logging abrangente para monitoramento e debug:
-
-#### Configuração Logback
-
-```xml
-<!-- src/main/resources/logback-spring.xml -->
-<configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-    
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/event-manager.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/event-manager.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>10MB</maxFileSize>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>300MB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-    
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
-    </root>
-    
-    <logger name="com.dtidigital.event_manager" level="DEBUG" />
-</configuration>
-```
-
-#### Logs Implementados
-
-- **Controller**: Log de requisições HTTP, parâmetros e respostas
-- **Service**: Log de operações de negócio, validações e erros
-- **Repository**: Log de operações de banco de dados
-- **Exception Handler**: Log detalhado de erros e exceções
-- **Auditoria**: Log de operações críticas (CRUD)
-
-#### Exemplos de Logs
-
-```java
-// No EventController
-@PostMapping
-public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) {
-    log.info("Iniciando cadastro de evento: {}", event.getName());
-    try {
-        Event savedEvent = eventService.save(event);
-        log.info("Evento cadastrado com sucesso - ID: {}", savedEvent.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
-    } catch (Exception e) {
-        log.error("Erro ao cadastrar evento: {}", e.getMessage(), e);
-        throw e;
-    }
-}
-
-// No EventService
-public Event save(Event event) {
-    log.debug("Validando dados do evento: {}", event);
-    validateEvent(event);
-    log.info("Salvando evento no banco de dados: {}", event.getName());
-    return eventRepository.save(event);
-}
-```
-
 ## 10. Estrutura do Projeto
 
 ### 📁 Organização dos Artefatos
 
+#### Backend
+
 ```
-event-manager/
-├── README.md                        # Documentação completa
-├── docker-compose.yml               # Configuração Docker
+src/back/event-manager/
+├── Dockerfile                 # Container backend
+├── database/                  # SQLite e scripts
+│   ├── event-manager.db       # Banco de dados
+│   └── scriptSQL.sql          # Script de criação
+├── logs/                      # Arquivos de log
 ├── src/
-│   ├── back/
-│   │   └── event-manager/           # Backend Spring Boot
-│   │       ├── Dockerfile           # Container backend
-│   │       ├── database/            # SQLite e scripts
-│   │       │   ├── event-manager.db # Banco de dados
-│   │       │   └── scriptSQL.sql    # Script de criação
-│   │       ├── logs/                # Arquivos de log
-│   │       ├── src/
-│   │       │   ├── main/
-│   │       │   │   ├── java/com/dtidigital/event_manager/
-│   │       │   │   │   ├── controller/   # API REST
-│   │       │   │   │   ├── enums/        # Enumerações
-│   │       │   │   │   ├── exception/    # Exceções personalizadas
-│   │       │   │   │   ├── model/        # Entidades
-│   │       │   │   │   ├── repository/   # Acesso a dados
-│   │       │   │   │   └── service/      # Lógica de negócio
-│   │       │   │   └── resources/        # Configurações
-│   │       │   │       ├── application.properties
-│   │       │   │       └── logback-spring.xml
-│   │       │   └── test/                 # Testes unitários
-│   │       │       └── java/com/dtidigital/event_manager/
-│   │       │           ├── controller/   # Testes Controller
-│   │       │           ├── model/        # Testes Model
-│   │       │           ├── service/      # Testes Service
-│   │       │           └── enums/        # Testes Enum
-│   │       ├── target/                   # Build artifacts
-│   │       └── pom.xml                   # Dependências Maven
-│   └── front/
-│       └── event-manager/           # Frontend React
-│           ├── Dockerfile           # Container frontend
-│           ├── src/
-│           │   ├── components/      # Componentes reutilizáveis
-│           │   ├── constants/       # Constantes
-│           │   ├── hooks/           # Custom hooks
-│           │   ├── pages/           # Páginas
-│           │   ├── services/        # Serviços de API
-│           │   ├── styles/          # Estilização
-│           │   └── utils/           # Funções utilitárias
-│           ├── public/              # Arquivos estáticos
-│           ├── package.json         # Dependências npm
-│           └── vite.config.js       # Configuração Vite
+│   ├── main/
+│   │   ├── java/com/dtidigital/event_manager/
+│   │   │   ├── controller/   # API REST
+│   │   │   ├── enums/        # Enumerações
+│   │   │   ├── exception/    # Exceções personalizadas
+│   │   │   ├── model/        # Entidades
+│   │   │   ├── repository/   # Acesso a dados
+│   │   │   └── service/      # Lógica de negócio
+│   │   └── resources/        # Configurações
+│   │       ├── application.properties
+│   │       └── logback-spring.xml
+│   └── test/                 # Testes unitários
+│       └── java/com/dtidigital/event_manager/
+│           ├── controller/   # Testes Controller
+│           ├── model/        # Testes Model
+│           ├── service/      # Testes Service
+│           └── enums/        # Testes Enum
+├── target/                   # Build artifacts
+└── pom.xml                   # Dependências Maven
 ```
 
-## 11. Script SQL
+#### Frontend
 
-### 📄 Criação das Tabelas
-
-**Arquivo**: `src/back/event-manager/database/scriptSQL.sql`
-
-```sql
--- Criação da tabela de eventos
-CREATE TABLE IF NOT EXISTS events (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL CHECK(length(name) >= 3 AND length(name) <= 100),
-    event_date DATE NOT NULL,
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    location TEXT NOT NULL CHECK(length(location) <= 200),
-    organizer TEXT NOT NULL CHECK(length(organizer) <= 200),
-    capacity INTEGER NOT NULL CHECK(capacity >= 1),
-    description TEXT CHECK(length(description) <= 500),
-    price REAL CHECK(price > 0),
-    category TEXT CHECK(category IN ('CONFERENCE', 'WORKSHOP', 'SEMINAR', 'MEETUP', 'TRAINING', 'EXHIBITION', 'NETWORKING', 'OTHER')),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
--- Criação de índices para melhor performance
-CREATE INDEX IF NOT EXISTS idx_events_date ON events(event_date);
-CREATE INDEX IF NOT EXISTS idx_events_category ON events(category);
-CREATE INDEX IF NOT EXISTS idx_events_organizer ON events(organizer);
-CREATE INDEX IF NOT EXISTS idx_events_location ON events(location);
-
--- Inserção de dados de exemplo para testes
-INSERT INTO events (name, event_date, start_time, end_time, location, organizer, capacity, description, price, category) VALUES 
-('Workshop React Avançado', '2025-12-15', '09:00:00', '17:00:00', 'Auditório DTI', 'DTI Digital', 50, 'Workshop intensivo sobre React com foco em performance e boas práticas', 299.90, 'WORKSHOP'),
-('Conferência Tech 2025', '2025-11-20', '08:00:00', '18:00:00', 'Centro de Convenções', 'Tech Events', 200, 'Conferência anual sobre tecnologia e inovação', 450.00, 'CONFERENCE'),
-('Meetup JavaScript', '2025-10-10', '19:00:00', '22:00:00', 'Hub de Inovação', 'JS Community', 80, 'Encontro mensal da comunidade JavaScript', 0.00, 'MEETUP'),
-('Seminário Arquitetura de Software', '2025-12-05', '14:00:00', '18:00:00', 'Universidade XYZ', 'Prof. Silva', 120, 'Seminário sobre padrões de arquitetura em sistemas distribuídos', 150.00, 'SEMINAR');
-
--- Trigger para atualizar updated_at automaticamente
-CREATE TRIGGER IF NOT EXISTS update_events_timestamp 
-    AFTER UPDATE ON events
-BEGIN
-    UPDATE events SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
-END;
 ```
-
-### 🔧 Comandos SQLite Úteis
-
-```sql
--- Verificar estrutura da tabela
-.schema events
-
--- Listar todos os eventos
-SELECT * FROM events ORDER BY event_date;
-
--- Buscar eventos por categoria
-SELECT * FROM events WHERE category = 'WORKSHOP';
-
--- Contar eventos por organizador
-SELECT organizer, COUNT(*) as total 
-FROM events 
-GROUP BY organizer;
-
--- Backup do banco
-.backup backup_events.db
-
--- Restaurar backup
-.restore backup_events.db
+src/front/event-manager/
+├── Dockerfile           # Container frontend
+├── src/
+│   ├── components/      # Componentes reutilizáveis
+│   ├── constants/       # Constantes
+│   ├── hooks/           # Custom hooks
+│   ├── pages/           # Páginas
+│   ├── services/        # Serviços de API
+│   ├── styles/          # Estilização
+│   └── utils/           # Funções utilitárias
+├── public/              # Arquivos estáticos
+├── package.json         # Dependências npm
+└── vite.config.js       # Configuração Vite
 ```
 
 ## 12. Exemplos de Uso
@@ -593,17 +431,17 @@ Content-Type: application/json
 
 ## 13. Considerações Finais
 
-### ✅ Diferenciais Implementados
+### Diferenciais Implementados
 
-- **✅ Testes Unitários**: Cobertura abrangente com JUnit 5 e Mockito
-- **✅ Containerização**: Docker e Docker Compose configurados
-- **✅ Sistema de Logs**: Logging estruturado com Logback
-- **✅ Validação Robusta**: Bean Validation em todas as camadas
-- **✅ API RESTful**: Endpoints bem definidos e documentados
-- **✅ Interface Moderna**: React com Material UI responsivo
-- **✅ Banco de Dados**: SQLite com script de criação e dados de exemplo
+- **Testes Unitários**: Cobertura abrangente com JUnit 5 e Mockito
+- **Containerização**: Docker e Docker Compose configurados
+- **Sistema de Logs**: Logging estruturado com Logback
+- **Validação Robusta**: Bean Validation em todas as camadas
+- **API RESTful**: Endpoints bem definidos e documentados
+- **Interface Moderna**: React com Material UI responsivo
+- **Banco de Dados**: SQLite com script de criação e dados de exemplo
 
-### 🚀 Tecnologias e Boas Práticas
+### Tecnologias e Boas Práticas
 
 - **Arquitetura em Camadas**: Controller → Service → Repository
 - **Injeção de Dependência**: Spring Framework
@@ -612,38 +450,29 @@ Content-Type: application/json
 - **Build Automatizado**: Maven com profiles
 - **Code Quality**: Estrutura organizada e bem documentada
 
-### 📦 Artefatos Entregues
+### Artefatos Entregues
 
-1. **✅ Código Fonte**: Organizado em estrutura profissional
-2. **✅ Script SQL**: `scriptSQL.sql` com criação de tabelas e dados
-3. **✅ Documentação**: Este README completo e detalhado
-4. **✅ Containerização**: Dockerfile e docker-compose.yml
-5. **✅ Testes**: Suíte completa de testes unitários
-6. **✅ Logs**: Sistema de logging estruturado
-
-### 🎯 Requisitos Atendidos
-
-- **✅ CRUD Completo**: Create, Read, Update, Delete para eventos
-- **✅ Validação**: Campos obrigatórios e opcionais validados
-- **✅ Banco de Dados**: SQLite com persistência
-- **✅ Interface Visual**: React em vez de aplicação console
-- **✅ Documentação**: Completa e detalhada
-- **✅ Exemplos de Uso**: APIs documentadas com exemplos
+1. **Código Fonte**: Organizado em estrutura profissional
+2. **Script SQL**: `scriptSQL.sql` com criação de tabelas e dados
+3. **Documentação**: Este README completo e detalhado
+4. **Containerização**: Dockerfile e docker-compose.yml
+5. **Testes**: Suíte completa de testes unitários
 
 ---
 
-## 💖 Conclusão
+## Conclusão
 
-O **Event Manager** é uma aplicação completa e robusta que atende a todos os requisitos do desafio técnico, incluindo os diferenciais opcionais. O projeto demonstra:
+O **Event Manager** é uma aplicação desenvolvida como parte do processo seletivo da DTI Digital, demonstrando:
 
 - **Competência técnica** em desenvolvimento full-stack
 - **Boas práticas** de engenharia de software
-- **Qualidade de código** com testes e logs
+- **Qualidade de código** com testes
 - **Capacidade de entrega** com documentação completa
 - **Visão de produto** com interface moderna e funcional
+- **Deploy e DevOps** com containerização e hospedagem em nuvem
 
 A aplicação está pronta para produção, com todas as funcionalidades implementadas, testadas e documentadas.
 
 ---
-**Desenvolvido com carinho por Gabriela** ✨  
+**Desenvolvido por Gabriela Alvarenga** ✨  
 *DTI Digital - Desafio Técnico 2025*
