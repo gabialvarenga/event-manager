@@ -1,12 +1,12 @@
 version: '3.8'
 services:
-  event-manager:
+  backend:
     build: .
+    container_name: backend
     ports:
       - "8080:8080"
     volumes:
-      - eventmanager-db:/app/database
-    restart: always
-
-volumes:
-  eventmanager-db:
+      - ./data:/app/data 
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/event-manager.db
+    restart: unless-stopped

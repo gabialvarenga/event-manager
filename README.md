@@ -116,7 +116,7 @@ Para informações detalhadas sobre implementação, acesse:
 
 O banco de dados é criado automaticamente pelo JPA usando SQLite, mas seu esquema está definido em:
 
-Arquivo: `src/back/event-manager/database/create_tables.sql`
+Arquivo: `src/back/event-manager/database/scriptSQL.sql`
 
 ```sql
 CREATE TABLE events (
@@ -252,7 +252,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     volumes:
-      - ./database:/app/database
+      - ./src/back/event-manager/data:/app/data
   
   frontend:
     build: ./src/front/event-manager
@@ -287,7 +287,8 @@ docker-compose down
 ```
 src/back/event-manager/
 ├── Dockerfile                 # Container backend
-├── database/                  # SQLite e scripts
+├── data/                      # Banco de dados SQLite
+├── database/                  # Scripts SQL
 │   ├── event-manager.db       # Banco de dados
 │   └── scriptSQL.sql          # Script de criação
 ├── logs/                      # Arquivos de log
